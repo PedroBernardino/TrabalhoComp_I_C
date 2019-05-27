@@ -39,14 +39,6 @@ void carregaMatrizTeclado (float * matriz, int lin, int col)
 }
 float * carregaMatrizBinario (FILE * descArquivo);
 
-unsigned short int leElementoMatriz (float * matriz, int lin, int col, int i, int j, float * elem)
-{
-	if(i>=lin || j>= col)
-		return 0;
-	*elem = *(matriz+(col*i)+j);
-	return 1;
-}
-
 
 void imprimeMatriz (float * matriz, int lin, int col)
 {
@@ -61,14 +53,60 @@ void imprimeMatriz (float * matriz, int lin, int col)
 		printf("\n");
 	}
 }
+
+void salvaMatrizBinario (float * matriz, int lin, int col, char * nomeArquivo);
+
+unsigned short int leElementoMatriz (float * matriz, int lin, int col, int i, int j, float * elem)
+{
+	if(i>=lin || j>= col)
+		return 0;
+	*elem = *(matriz+(col*i)+j);
+	return 1;
+}
+
+float * somaMatrizes (float * matA, float * matB, int lin, int col)
+{
+	int i,j;
+	float *soma;
+	soma = criaMatriz(lin,col);
+	for(i=0;i<lin;i++)
+	{
+		for(j=0;j<col;j++)
+		{
+			*(soma+(col*i)+j) = *(matA+(col*i)+j) + *(matB+(col*i)+j);
+		}
+	}
+	return soma;
+}
+
+float * multiplicaMatrizes (float * matA, float * matB, int linA, int colA, int colB)
+{
+	int i, j,k;
+	float *result, soma;
+	result = criaMatriz(linA, colB);
+	for(i=0;i<linA;i++)
+	{
+		for(j=0;j<colB;j++)
+		{
+			soma = 0;
+			for(k=0;k<colA;k++)
+			{
+				soma+= *(matA+(colA*i)+k) * *(matB+(colB*k)+j);
+			}
+			*(result+(colB*i)+j) = soma;
+		}
+	}
+	return result;
+}
+
+
 int main(void)
 {
-	float *p, *elemento;
-	elemento = (float *) malloc (sizeof(float));
-	p = criaMatriz(3,5);
-	carregaMatrizTeclado(p, 3, 5);
-	imprimeMatriz(p,3,5);
-	leElementoMatriz(p,3,5,2,3,elemento);
-	printf("%.2f", *elemento);
+	float *p1, *p2;
+	p1 = criaMatriz(2,2);
+	p2 = criaMatriz(2,4);
+	carregaMatrizTeclado(p1, 2, 2);
+	carregaMatrizTeclado(p2, 2, 4);
+	imprimeMatriz(multiplicaMatrizes(p1,p2,2,2,4),2,4);
 	return 0;
 }
