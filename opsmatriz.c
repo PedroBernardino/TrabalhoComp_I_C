@@ -99,14 +99,24 @@ float * multiplicaMatrizes (float * matA, float * matB, int linA, int colA, int 
 	return result;
 }
 
+float * transpostaMatriz (float * mat, int lin, int col)
+{
+	int i, j;
+	float *transp;
+	transp = criaMatriz(col,lin);
+	for(i=0;i<col;i++)
+		for (j = 0; j < lin; ++j)
+		{
+			*(transp+(lin*i)+j) = *(mat+(col*j)+i);
+		}
+	return transp;
+}
 
 int main(void)
 {
-	float *p1, *p2;
-	p1 = criaMatriz(2,2);
-	p2 = criaMatriz(2,4);
-	carregaMatrizTeclado(p1, 2, 2);
-	carregaMatrizTeclado(p2, 2, 4);
-	imprimeMatriz(multiplicaMatrizes(p1,p2,2,2,4),2,4);
+	float *p;
+	p = criaMatriz(2,4);
+	carregaMatrizTeclado(p, 2, 4);
+	imprimeMatriz(transpostaMatriz(p,2,4),4,2);
 	return 0;
 }
