@@ -26,6 +26,7 @@ void destroiMatriz(float * matriz)
 {
 	free(matriz);
 }
+
 void carregaMatrizTeclado (float * matriz, int lin, int col)
 {
 	int i,j;
@@ -37,7 +38,16 @@ void carregaMatrizTeclado (float * matriz, int lin, int col)
 		}
 	}
 }
-float * carregaMatrizBinario (FILE * descArquivo);
+float * carregaMatrizBinario (FILE * descArquivo)
+{
+	float *mat;
+	int lin, col;
+	fread(&lin,sizeof(int),1,descArquivo);
+	fread(&col,sizeof(int),1,descArquivo);
+	mat = criaMatriz(lin,col);
+	fread(mat,sizeof(float),lin*col,descArquivo);
+	return mat;
+}
 
 
 void imprimeMatriz (float * matriz, int lin, int col)
@@ -54,7 +64,15 @@ void imprimeMatriz (float * matriz, int lin, int col)
 	}
 }
 
-void salvaMatrizBinario (float * matriz, int lin, int col, char * nomeArquivo);
+void salvaMatrizBinario (float * matriz, int lin, int col, char * nomeArquivo)
+{
+	FILE *p;
+	p = fopen(nomeArquivo, "wb");
+	fwrite(&lin, sizeof(int), 1, p);
+	fwrite(&col, sizeof(int), 1, p);
+	fwrite(matriz, sizeof(float), lin*col, p);
+	fclose(p);
+}
 
 unsigned short int leElementoMatriz (float * matriz, int lin, int col, int i, int j, float * elem)
 {
@@ -63,6 +81,8 @@ unsigned short int leElementoMatriz (float * matriz, int lin, int col, int i, in
 	*elem = *(matriz+(col*i)+j);
 	return 1;
 }
+
+unsigned short int alteraElementoMatriz (float * matriz, int lin, int col, int i, int j, float novoElem);
 
 float * somaMatrizes (float * matA, float * matB, int lin, int col)
 {
@@ -117,6 +137,11 @@ int main(void)
 	float *p;
 	p = criaMatriz(2,4);
 	carregaMatrizTeclado(p, 2, 4);
-	imprimeMatriz(transpostaMatriz(p,2,4),4,2);
+	imprimeMatriz(p,2,4);
+	salvaMatrizBinario(p,2,4,"matrizbin.dat");
+	FILE *a;
+	a = fopen("matrizbin.dat","rb");
+	imprimeMatriz(carregaMatrizBinario(a),2,4);
+	fclose(a);
 	return 0;
 }
