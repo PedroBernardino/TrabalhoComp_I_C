@@ -82,7 +82,13 @@ unsigned short int leElementoMatriz (float * matriz, int lin, int col, int i, in
 	return 1;
 }
 
-unsigned short int alteraElementoMatriz (float * matriz, int lin, int col, int i, int j, float novoElem);
+unsigned short int alteraElementoMatriz (float * matriz, int lin, int col, int i, int j, float novoElem)
+{
+	if(i>=lin || j>= col)
+		return 0;
+	*(matriz+(col*i)+j) = novoElem;
+	return 1;
+}
 
 float * somaMatrizes (float * matA, float * matB, int lin, int col)
 {
@@ -131,17 +137,58 @@ float * transpostaMatriz (float * mat, int lin, int col)
 		}
 	return transp;
 }
+unsigned short int ehMatrizIdentidade (float * mat, int lin, int col)
+{
+	int i,j;
+	if(lin != col)
+		return 0;
+	for(i=0;i<lin;i++)
+	{
+		for(j=0;j<col;j++)
+		{
+			if((i==j && *(mat+(col*i)+j) != 1) || (i!=j && *(mat+(col*i)+j) != 0))
+				return 0;
+		}
+	}
+	return 1;
+}
+
+unsigned short int ehMatrizTriangularSuperior (float * mat, int lin, int col)
+{
+	int i,j;
+	if(lin != col)
+		return 0;
+	for(i = 1;i<lin;i++)
+	{
+		for(j=i-1;j>=0;j--)
+		{
+			if(*(mat+(col*i)+j) != 0)
+				return 0;
+		}
+	}
+	return 1;
+}
+
+unsigned short int ehMatrizTriangularInferior (float * mat, int lin, int col)
+{
+	int i,j;
+	if(lin != col)
+		return 0;
+	for(i=0;i<lin;i++)
+	{
+		for(j=i+1;j<col;j++)
+		{
+			if(*(mat+(col*i)+j) != 0)
+				return 0;	
+		}
+	}
+	return 1;
+}
 
 int main(void)
 {
 	float *p;
-	p = criaMatriz(2,4);
-	carregaMatrizTeclado(p, 2, 4);
-	imprimeMatriz(p,2,4);
-	salvaMatrizBinario(p,2,4,"matrizbin.dat");
-	FILE *a;
-	a = fopen("matrizbin.dat","rb");
-	imprimeMatriz(carregaMatrizBinario(a),2,4);
-	fclose(a);
-	return 0;
+	p = criaMatriz(3,3);
+	carregaMatrizTeclado(p,3,3);
+	printf("%d", ehMatrizTriangularSuperior(p,3,3));
 }
