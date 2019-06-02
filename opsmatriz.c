@@ -185,10 +185,34 @@ unsigned short int ehMatrizTriangularInferior (float * mat, int lin, int col)
 	return 1;
 }
 
+unsigned short int somaAdjacentesElementoMatriz (float * matriz, int lin, int col, int i, int j, float * soma)
+{
+	int a, b;
+	*(soma) = 0;
+	if(i>=lin || j>= col)
+	{
+		return 0;
+	}
+	for(a=i-1;a<=i+1;a++)
+	{
+		for(b=j-1;b<=j+1;b++)
+		{
+			if(a<lin && b<col)
+			{ 
+				*(soma) += *(matriz+(col*a)+b);
+			}
+		}
+	}
+	*(soma) -= *(matriz+(col*i)+j);
+	return 1;
+}
+
 int main(void)
 {
-	float *p;
-	p = criaMatriz(3,3);
-	carregaMatrizTeclado(p,3,3);
-	printf("%d", ehMatrizTriangularSuperior(p,3,3));
+	float *p, *soma;
+	p = criaMatriz(1,1);
+	soma = criaMatriz(1,1);
+	carregaMatrizTeclado(p,1,1);
+	somaAdjacentesElementoMatriz(p,1,1,0,0,soma);
+	printf("%f\n", *(soma));
 }
