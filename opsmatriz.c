@@ -38,12 +38,11 @@ void carregaMatrizTeclado (float * matriz, int lin, int col)
 		}
 	}
 }
-float * carregaMatrizBinario (FILE * descArquivo)
+float * carregaMatrizBinario (FILE * descArquivo, int * lin, int *col)
 {
 	float *mat;
-	int lin, col;
-	fread(&lin,sizeof(int),1,descArquivo);
-	fread(&col,sizeof(int),1,descArquivo);
+	fread(lin,sizeof(int),1,descArquivo);
+	fread(col,sizeof(int),1,descArquivo);
 	mat = criaMatriz(lin,col);
 	fread(mat,sizeof(float),lin*col,descArquivo);
 	return mat;
