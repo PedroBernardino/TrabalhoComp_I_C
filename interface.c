@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "matriz.h"
 
 
 // deve ser usado com janela de terminal em 35 linhas e 113 colunas //
@@ -21,36 +22,40 @@ void mostraOpcoesMenu(void){
     margem(); printf("--> Digite 10 para somar os elementos adjacentes de um dado elemento da matriz\n");
     margem(); printf("--> Digite 11 para terminar o programa \n\n");
 }
-
-int main(){
-    int c,menuEscolha;
+void PrintMenu(){
+    int c;
     FILE * menuFilePointer;
     menuFilePointer = fopen("menu.txt", "r");
     //testando se abriu com sucesso//
     if(menuFilePointer == NULL){
         printf("erro ao carregar arquivo\n");
-        return -1;
+        exit(1);
     }
 
-    //esvaziando a tela e mostrando o menu//
     system("clear");
     while((c = fgetc(menuFilePointer)) != EOF){
         printf("%c", c);
     }
     printf("\n\n\n");
-    
     // opcoes do menu //
     mostraOpcoesMenu();
+    fclose(menuFilePointer);
+}
 
-    
-
-    
-/*
+int main(){
+    int menuEscolha, lin, col;
+    float * matrizPointer;
     do{
+        PrintMenu();
         scanf("%d", &menuEscolha);
+        
         switch(menuEscolha){
             case 1:
-            case 2:
+                margem(); printf("Insira a dimensao da matriz:[lin] [col]:");
+                scanf("%d %d", &lin, &col);
+                matrizPointer = criaMatriz(lin, col);
+                carregaMatrizTeclado( matrizPointer, lin, col);
+            /*case 2:
             case 3:
             case 4:
             case 5:
@@ -59,11 +64,8 @@ int main(){
             case 8:
             case 9:
             case 10:
-            case 11:
-            default:
+            case 11:*/
         }
     }while (menuEscolha != 11);
-*/
-    fclose(menuFilePointer);
     return 0;
 }
