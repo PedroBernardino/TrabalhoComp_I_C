@@ -26,7 +26,7 @@ void carregaMatrizTeclado (float * matriz, int lin, int col);
 /* Entrada: o descritor do arquivo binario de onde a matriz sera carregada (previamente aberto para leitura binaria) */ 
 /* Saida: a matriz criada e carregada do arquivo de entrada */
 /* Restricao: assume que o arquivo de entrada tem o seguinte conteudo: numero de linhas da matriz (int), numero de colunas da matriz (int), sequencia de elementos da matriz, linha por linha (float) */ 
-float * carregaMatrizBinario (FILE * descArquivo);
+float * carregaMatrizBinario (FILE * descArquivo, int *lin, int*col);
 
 /* Imprime uma matriz na tela */ 
 /* Entrada: uma matriz e suas dimensoes */ 

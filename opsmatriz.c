@@ -43,8 +43,8 @@ float * carregaMatrizBinario (FILE * descArquivo, int * lin, int *col)
 	float *mat;
 	fread(lin,sizeof(int),1,descArquivo);
 	fread(col,sizeof(int),1,descArquivo);
-	mat = criaMatriz(lin,col);
-	fread(mat,sizeof(float),lin*col,descArquivo);
+	mat = criaMatriz(*(lin),*(col));
+	fread(mat,sizeof(float),*(lin)**(col),descArquivo);
 	return mat;
 }
 
