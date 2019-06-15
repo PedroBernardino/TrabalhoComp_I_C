@@ -37,34 +37,83 @@ void PrintMenu(){
         printf("%c", c);
     }
     printf("\n\n\n");
-    // opcoes do menu //
-    mostraOpcoesMenu();
     fclose(menuFilePointer);
 }
+
+//funcao para perguntar se o usuario deseja continuar no programa ou sair//
+int continua(){
+    int result = 0;
+    while(!result){
+        char escolha_continuar; // variavel que armazena a escolha do usuario nos loops de continuacao//
+        getchar();
+        printf("Deseja continuar?[s/n]:");
+        scanf("%c", &escolha_continuar);
+        if(escolha_continuar == 'n' || escolha_continuar == 'N'){
+            exit(1);
+        }else if( escolha_continuar == 's' || escolha_continuar == 'S'){
+            return 1;
+        }
+    }
+}
+
 
 int main(){
     int menuEscolha, lin, col;
     float * matrizPointer;
+    FILE * matrizFilePointer;
+    char nomeArquivo[20];
+
     do{
         PrintMenu();
+        mostraOpcoesMenu();
         scanf("%d", &menuEscolha);
         
         switch(menuEscolha){
             case 1:
-                margem(); printf("Insira a dimensao da matriz:[lin] [col]:");
+                PrintMenu();
+                printf("Insira a dimensao da matriz:[lin] [col]:");
                 scanf("%d %d", &lin, &col);
                 matrizPointer = criaMatriz(lin, col);
                 carregaMatrizTeclado( matrizPointer, lin, col);
-            /*case 2:
-            case 3:
+                imprimeMatriz( matrizPointer, lin, col);
+
+                //para o usuario poder visualizar a matriz e prosseguir//
+                continua();
+                break;
+            case 2:
+                PrintMenu();
+                printf("insira o nome do arquivo:");
+                scanf("%s", nomeArquivo);
+                printf("insira as dimensoes da matriz de destino:[lin] [col]:");
+                scanf("%d %d", &lin, &col);
+                matrizPointer = criaMatriz(lin,col);
+                matrizFilePointer = fopen(nomeArquivo, "rb");
+                matrizPointer = carregaMatrizBinario(matrizFilePointer, &lin, &col);
+                printf("matriz carregada: \n");
+                imprimeMatriz( matrizPointer, lin, col);
+                continua();
+                break;
+
+            //case 3://
             case 4:
-            case 5:
+                PrintMenu();
+                printf("Insira a dimensao da matriz:[lin] [col]:");
+                scanf("%d %d", &lin, &col);
+                matrizPointer = criaMatriz(lin, col);
+                printf("Insira o nome do arquivo que deseja salvar:");
+                scanf("%19s", nomeArquivo);
+                carregaMatrizTeclado(matrizPointer, lin, col);
+                salvaMatrizBinario(matrizPointer, lin, col, nomeArquivo);
+                printf("matriz salva em %s \n", nomeArquivo);
+                imprimeMatriz(matrizPointer,lin, col);
+                continua();
+                break;
+            /*case 5:
             case 6:
             case 7:
             case 8:
             case 9:
-            case 10:
-            case 11:*/
+            case 10:*/
         }
     }while (menuEscolha != 11);
     return 0;

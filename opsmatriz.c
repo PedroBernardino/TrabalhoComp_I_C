@@ -34,6 +34,7 @@ void carregaMatrizTeclado (float * matriz, int lin, int col)
 	{
 		for(j=0;j<col;j++)
 		{
+			printf("insira a posicao [%d] [%d]:", i, j);
 			scanf("%f", matriz+(col*i)+j);
 		}
 	}
@@ -205,7 +206,7 @@ unsigned short int somaAdjacentesElementoMatriz (float * matriz, int lin, int co
 	*(soma) -= *(matriz+(col*i)+j);
 	return 1;
 }
-
+/*
 int main(void)
 {
 	float *p, *soma;
@@ -214,4 +215,4 @@ int main(void)
 	carregaMatrizTeclado(p,1,1);
 	somaAdjacentesElementoMatriz(p,1,1,0,0,soma);
 	printf("%f\n", *(soma));
-}
+}*/
