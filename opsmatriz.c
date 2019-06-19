@@ -12,15 +12,7 @@ float * criaMatrizZero (int lin, int col)
 //cria uma matriz totalmente zerada com as dimensões dos parâmetros de entrada
 {
 	float *p;
-	p = (float *) malloc (lin*col*sizeof(float));
-	int i, j;
-	for(i = 0;i<lin;i++)
-	{
-		for(j=0;j<col;j++)
-		{
-			*(p+(col*i)+j) = 0;
-		}
-	}
+	p = (float *) calloc (lin*col, sizeof(float));
 	return p;
 }
 
@@ -233,13 +225,3 @@ unsigned short int somaAdjacentesElementoMatriz (float * matriz, int lin, int co
 	*(soma) -= *(matriz+(col*i)+j);
 	return 1;
 }
-/*
-int main(void)
-{
-	float *p, *soma;s
-	p = criaMatriz(1,1);
-	soma = criaMatriz(1,1);
-	carregaMatrizTeclado(p,1,1);
-	somaAdjacentesElementoMatriz(p,1,1,0,0,soma);
-	printf("%f\n", *(soma));
-}*/
