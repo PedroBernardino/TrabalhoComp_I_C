@@ -42,7 +42,7 @@ void printHeader(){
 }
 
 //funcao para perguntar se o usuario deseja continuar no programa ou sair//
-int continua(){
+void continua(){
     int result = 0;
     while(!result){
         char escolha_continuar; // variavel que armazena a escolha do usuario nos loops de continuacao//
@@ -52,7 +52,7 @@ int continua(){
         if(escolha_continuar == 'n' || escolha_continuar == 'N'){
             exit(1);
         }else if( escolha_continuar == 's' || escolha_continuar == 'S'){
-            return 1;
+            return;
         }
     }
 }
@@ -124,7 +124,9 @@ int main(){
                     scanf("%d %d", &posicaoLin, &posicaoCol);
                     printf("Insira o novo valor:");
                     scanf("%f", &elemento);
-                    alteraElementoMatriz(matrizPointer, lin, col, posicaoLin, posicaoCol, elemento);
+                    if(alteraElementoMatriz(matrizPointer, lin, col, posicaoLin, posicaoCol, elemento))
+			puts("Elemento alterado com sucesso");
+		    else printf("O Elemento nao existe na matriz\n");
                     imprimeMatriz(matrizPointer, lin, col);
                 }else{
                     printf("Nenhuma matriz no programa...");
@@ -184,7 +186,7 @@ int main(){
                     }else if(ehMatrizTriangularInferior(matrizPointer,lin,col)){
                         printf("eh triangular inferior\n");
                     }else{
-                        printf("nao eh tringular nem identidade.\n");
+                        printf("nao eh triangular nem identidade.\n");
                     }
                 }else{
                     printf("Nenhuma matriz no programa...\n");
@@ -193,15 +195,17 @@ int main(){
                 break;
             case 10:
                 printHeader();
-                if(matrizPointer != NULL){
+                if(matrizPointer != NULL)
+		{
                     printf("Insira a posicao do elemento para soma:[lin] [col]:");
                     scanf("%d %d",&posicaoLin, &posicaoCol);
-                    somaAdjacentesElementoMatriz (matrizPointer, lin, col, posicaoLin, posicaoCol, soma);
-                    printf("A soma eh: ");
-                    imprimeMatriz(auxMatrizPointer, 1, 1);
-                }else{
-                    printf("Nenhuma matriz no programa...\n");
+                    if(somaAdjacentesElementoMatriz (matrizPointer, lin, col, posicaoLin, posicaoCol, soma))
+                    	printf("A soma eh: %.1f\n", *(soma));
+		    else printf("Elemento nao existe na matriz\n");
                 }
+		else
+                    printf("Nenhuma matriz no programa...\n");
+                
                 continua();
         }
     }while (menuEscolha != 11);
