@@ -91,12 +91,17 @@ int main(){
                 scanf("%d %d", &lin, &col);
                 matrizPointer = criaMatriz(lin,col);
                 matrizFilePointer = fopen(nomeArquivo, "rb");
-                matrizPointer = carregaMatrizBinario(matrizFilePointer, &lin, &col);
-                printf("matriz carregada: \n");
-                imprimeMatriz( matrizPointer, lin, col);
+                if(matrizFilePointer == NULL){
+                    printf("Arquivo nao encontrado.\n");
+                }else{
+                    matrizPointer = carregaMatrizBinario(matrizFilePointer, &lin, &col);
+                    printf("matriz carregada: \n");
+                    imprimeMatriz( matrizPointer, lin, col);
+                }
                 continua();
                 break;
             case 3:
+                printHeader();
                 if(matrizPointer != NULL){
                     imprimeMatriz(matrizPointer, lin, col);
                 }else{
